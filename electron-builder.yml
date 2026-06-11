@@ -52,6 +52,6 @@ directories:
 # ── Publish config (for auto-updater — use GitHub releases) ──────────────
 publish:
   provider: github
-  owner: ApurrvXD
+  owner: ApurrvSemwal16
   repo: LoungeStarter
   releaseType: release
