@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;">
+  <title>LoungeStarter</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ── Custom titlebar ─────────────────────────────────────────────────── -->
+<div id="titlebar">
+  <div class="titlebar-logo">
+    <div class="titlebar-icon">
+      <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+    </div>
+    <span class="titlebar-title">LoungeStarter</span>
+    <span class="version-badge" id="app-version">v1.0.0</span>
+  </div>
+  <div class="titlebar-spacer"></div>
+  <div class="titlebar-controls">
+    <button class="titlebar-btn" id="btn-min" title="Minimise">
+      <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+        <line x1="2" y1="6" x2="10" y2="6"/>
+      </svg>
+    </button>
+    <button class="titlebar-btn" id="btn-max" title="Maximise">
+      <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="2" y="2" width="8" height="8"/>
+      </svg>
+    </button>
+    <button class="titlebar-btn close" id="btn-close" title="Minimise to tray">
+      <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+        <line x1="2" y1="2" x2="10" y2="10"/><line x1="10" y1="2" x2="2" y2="10"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<!-- ── App shell ───────────────────────────────────────────────────────── -->
+<div id="app">
+
+  <!-- Toolbar -->
+  <div id="toolbar">
+    <span class="toolbar-title">Startup Apps</span>
+    <div class="stat-pill">
+      <span class="stat-dot green"></span>
+      <span><span class="stat-val" id="stat-enabled">0</span> enabled</span>
+    </div>
+    <div class="stat-pill">
+      <span class="stat-dot blue"></span>
+      <span><span class="stat-val" id="stat-total">0</span> total</span>
+    </div>
+    <div class="auto-badge">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" width="12" height="12">
+        <path d="M13.5 8a5.5 5.5 0 11-1.4-3.7"/><polyline points="14 2 14 6 10 6"/>
+      </svg>
+      Auto-saving
+    </div>
+    <div class="spacer"></div>
+    <button class="btn btn-ghost" id="btn-add-app">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+      </svg>
+      Add App
+    </button>
+  </div>
+
+  <!-- App grid -->
+  <div id="scroll-area">
+    <div id="app-grid"></div>
+  </div>
+
+  <!-- Script preview bar -->
+  <div id="preview-bar">
+    <div class="preview-header">
+      <div>
+        <span class="preview-label">startup.bat — auto-synced</span>
+        <div class="bat-path-row">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="11" height="11">
+            <path d="M2 4h12v9a1 1 0 01-1 1H3a1 1 0 01-1-1V4z"/><path d="M5 4V2h6v2"/>
+          </svg>
+          <span id="bat-path-label" class="bat-path-text">Locating…</span>
+        </div>
+      </div>
+      <div class="preview-actions">
+        <button class="btn btn-ghost" id="btn-copy" style="padding:5px 10px;font-size:12px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <rect x="9" y="9" width="13" height="13" rx="2"/>
+            <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+          </svg>
+          Copy
+        </button>
+        <button class="btn btn-ghost" id="btn-open-folder" style="padding:5px 10px;font-size:12px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/>
+          </svg>
+          Open folder
+        </button>
+      </div>
+    </div>
+    <div class="code-preview" id="code-preview"></div>
+  </div>
+
+</div>
+
+<!-- ── Welcome overlay (first launch) ──────────────────────────────────── -->
+<div id="welcome-overlay" class="welcome-overlay">
+  <div class="welcome-card">
+    <div class="welcome-icon">
+      <svg viewBox="0 0 24 24" width="48" height="48"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="#3b82f6"/></svg>
+    </div>
+    <h1 class="welcome-title">Welcome to LoungeStarter</h1>
+    <p class="welcome-desc">
+      Manage which apps launch automatically when Windows starts up.
+      <br>Add your first app to get started!
+    </p>
+    <div class="welcome-features">
+      <div class="welcome-feature">
+        <span class="welcome-feature-icon">🎯</span>
+        <div>
+          <strong>One-click toggle</strong>
+          <span>Enable or disable startup apps instantly</span>
+        </div>
+      </div>
+      <div class="welcome-feature">
+        <span class="welcome-feature-icon">📝</span>
+        <div>
+          <strong>Auto-synced script</strong>
+          <span>Startup batch file is always up to date</span>
+        </div>
+      </div>
+      <div class="welcome-feature">
+        <span class="welcome-feature-icon">🖥️</span>
+        <div>
+          <strong>System tray</strong>
+          <span>Runs quietly in the background</span>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-primary welcome-btn" id="welcome-start-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16">
+        <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+      </svg>
+      Add Your First App
+    </button>
+  </div>
+</div>
+
+<!-- ── Add App Modal ───────────────────────────────────────────────────── -->
+<div class="modal-overlay" id="modal-add">
+  <div class="modal">
+    <h2>Add application</h2>
+    <p class="modal-sub">Configure a new app to manage on startup.</p>
+
+    <div class="form-row" style="display:flex;gap:14px;align-items:flex-start">
+      <!-- Live icon preview -->
+      <div>
+        <label class="form-label">Preview</label>
+        <div id="modal-icon-preview" class="app-icon" style="width:48px;height:48px;font-size:24px;border-radius:10px"></div>
+      </div>
+      <div style="flex:1">
+        <label class="form-label" for="new-name">App name</label>
+        <input class="form-input" id="new-name" type="text" placeholder="e.g. Discord" autocomplete="off">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">Fallback icon (if no .exe icon found)</label>
+      <div class="emoji-grid" id="emoji-grid"></div>
+    </div>
+
+    <div class="form-row">
+      <label class="form-label" for="new-path">Executable path</label>
+      <div class="path-row">
+        <input class="form-input path-input" id="new-path" type="text"
+          placeholder="Browse or paste .exe path…"
+          style="font-family:var(--mono);font-size:11px">
+        <button class="btn-browse" id="new-browse">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/>
+          </svg>
+          Browse
+        </button>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="modal-cancel">Cancel</button>
+      <button class="btn btn-primary" id="modal-confirm">Add App</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script src="renderer.js"></script>
+</body>
+</html>

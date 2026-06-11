@@ -1,0 +1,57 @@
+appId: com.loungestarter.app
+productName: LoungeStarter
+copyright: "Copyright © 2026 LoungeStarter"
+
+# ── Windows targets ──────────────────────────────────────────────────────
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+    - target: portable
+      arch:
+        - x64
+  icon: assets/icons/icon.ico
+  requestedExecutionLevel: asInvoker
+  # Code signing disabled — not required for local/internal distribution
+  signingHashAlgorithms: null
+  sign: null
+  verifyUpdateCodeSignature: false
+
+# ── NSIS installer settings ──────────────────────────────────────────────
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: LoungeStarter
+  installerIcon: assets/icons/icon.ico
+  uninstallerIcon: assets/icons/icon.ico
+  deleteAppDataOnUninstall: false
+  runAfterFinish: true
+  installerSidebar: null
+  license: null
+
+# ── Portable settings ───────────────────────────────────────────────────
+portable:
+  artifactName: "LoungeStarter-Portable-${version}.exe"
+
+# ── Files to include in the app package ──────────────────────────────────
+files:
+  - src/**/*
+  - assets/**/*
+  - package.json
+  - "!node_modules/.cache/**/*"
+
+# ── Output directory ─────────────────────────────────────────────────────
+directories:
+  output: dist
+  buildResources: assets
+
+# ── Publish config (for auto-updater — use GitHub releases) ──────────────
+publish:
+  provider: github
+  owner: ApurrvXD
+  repo: LoungeStarter
+  releaseType: release
