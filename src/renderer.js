@@ -6,9 +6,9 @@ function generateScript(apps) {
   const lines = [
     '@echo off',
     ':: ================================================',
-    '::  LoungeStarter — startup script',
+    '::  LoungeStarter -- startup script',
     `::  Generated: ${new Date().toLocaleString()}`,
-    '::  Managed by LoungeStarter — do not edit manually.',
+    '::  Managed by LoungeStarter -- do not edit manually.',
     ':: ================================================',
     '',
   ];
@@ -16,8 +16,12 @@ function generateScript(apps) {
     lines.push(':: No apps enabled. Open LoungeStarter to configure.');
   } else {
     enabled.forEach(a => {
-      lines.push(`:: ${a.name}`);
-      lines.push(`start "" "${a.path}"`);
+      // Sanitize: strip outer quotes, trim whitespace
+      const safePath = a.path.trim().replace(/^["']+|["']+$/g, '');
+      // Sanitize app name to ASCII for bat comment safety
+      const safeName = a.name.replace(/[^\x20-\x7E]/g, '');
+      lines.push(`:: ${safeName}`);
+      lines.push(`start "" "${safePath}"`);
       lines.push('');
     });
   }
@@ -93,6 +97,9 @@ async function autoSave() {
   isFirstLoad = false;
 
   render();
+
+  // Force-regenerate the bat file on boot (ensures clean ASCII encoding)
+  autoSave();
 
   // Show welcome overlay if first launch (no apps)
   if (apps.length === 0) {

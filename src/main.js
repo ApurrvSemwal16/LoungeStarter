@@ -228,7 +228,7 @@ ipcMain.handle('extract-icon', async (_e, exePath) => getIcon(exePath));
 
 ipcMain.handle('auto-write-script', (_e, content) => {
   try {
-    fs.writeFileSync(getStartupBatPath(), content, 'utf8');
+    fs.writeFileSync(getStartupBatPath(), content, 'latin1');
     return { success: true, filePath: getStartupBatPath() };
   } catch (err) { return { success: false, reason: err.message }; }
 });

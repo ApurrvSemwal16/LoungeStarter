@@ -1,6 +1,6 @@
 {
   "name": "loungestarter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A lightweight Windows desktop app to manage which applications launch at startup",
   "main": "src/main.js",
   "scripts": {
@@ -20,11 +20,15 @@
       "target": [
         {
           "target": "nsis",
-          "arch": ["x64"]
+          "arch": [
+            "x64"
+          ]
         },
         {
           "target": "portable",
-          "arch": ["x64"]
+          "arch": [
+            "x64"
+          ]
         }
       ],
       "icon": "assets/icons/icon.ico",
@@ -58,7 +62,13 @@
       "main": "src/main.js"
     }
   },
-  "keywords": ["startup", "launcher", "electron", "windows", "startup-manager"],
+  "keywords": [
+    "startup",
+    "launcher",
+    "electron",
+    "windows",
+    "startup-manager"
+  ],
   "author": "LoungeStarter",
   "license": "MIT",
   "devDependencies": {
